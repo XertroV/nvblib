@@ -11,6 +11,8 @@ OP_EMPOWER = b'\x03'
 OP_CAST = b'\x10'
 OP_DELEGATE = b'\x11'
 
+OP_TRANSFER = b'\x20'
+
 
 def validate_resolution(r):
     assert type(r) == bytes
