@@ -6,7 +6,7 @@ from ..constants import ENDIAN
 
 
 class ModResolution(Instruction):
-    """PREFIX[3] OP_MOD_RES[1] hash160[20]"""
+    """PREFIX[3] OP_TRANSFER[1] hash160[20]"""
 
     def __init__(self, hash160):
         super().__init__()
