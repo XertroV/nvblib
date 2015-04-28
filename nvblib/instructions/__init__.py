@@ -49,8 +49,10 @@ def len_to_one_byte(i):
 
 class Instruction:
     PREFIX = MSG_PREFIX
+    OP_CODE = OP_NULL
+
     def __init__(self):
-        self.op_code = OP_NULL
+        self.op_code = self.OP_CODE
         self._extra_bytes = b''
 
     def _encode_with_extra_bytes(self, *bs):
@@ -59,8 +61,11 @@ class Instruction:
     def to_bytes(self):
         return self.PREFIX + self.op_code + self._extra_bytes
 
-    def apply(self, state):
-        raise NotImplemented()
+    @classmethod
+    def validate_header(cls, bs):
+        validate_prefix(bs)
+        assert bs[3] == cls.OP_CODE[0]
 
-    def unapply(self, state):
-        raise NotImplemented()
+    @classmethod
+    def from_bytes(cls, bs):
+        raise NotImplemented
