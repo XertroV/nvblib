@@ -1,6 +1,6 @@
 __author__ = 'XertroV'
 
-from . import Instruction, OP_CREATE, validate_name, validate_prefix
+from . import Instruction, OP_CREATE, validate_name, _to_bytes
 
 class CreateNetwork(Instruction):
     """PREFIX[3] OP_CREATE[1] name[<30]"""
@@ -8,7 +8,7 @@ class CreateNetwork(Instruction):
 
     def __init__(self, name):
         super().__init__()
-        self.name = bytes(name.encode() if type(name) is str else name)
+        self.name = _to_bytes(lambda n: n.encode(), name)
         self._extra_bytes = self.name
 
         validate_name(self.name)

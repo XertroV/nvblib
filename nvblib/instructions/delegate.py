@@ -2,7 +2,7 @@ __author__ = 'XertroV'
 
 from pycoin.encoding import a2b_base58
 
-from . import Instruction, validate_address, validate_prefix, OP_DELEGATE
+from . import Instruction, validate_address, OP_DELEGATE, _to_bytes
 
 from ..constants import ENDIAN
 
@@ -13,8 +13,8 @@ class DelegateVote(Instruction):
 
     def __init__(self, address, categories):
         super().__init__()
-        self.address = address if type(address) == bytes else a2b_base58(address)
-        self.categories = int(categories).to_bytes(1, ENDIAN)
+        self.address = _to_bytes(lambda a: a2b_base58(a), address)
+        self.categories = _to_bytes(lambda c: int(c).to_bytes(1, ENDIAN), categories)
         self._extra_bytes = self.categories + self.address
 
         validate_address(self.address)

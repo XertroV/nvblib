@@ -34,4 +34,4 @@ def op_code_lookup(op_code_byte):
     return op_code_map[op_code_byte]
 
 def get_op(script_bytes):
-    return script_bytes[3]
+    return script_bytes[3:4]
