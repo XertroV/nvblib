@@ -1,7 +1,6 @@
 __author__ = 'XertroV'
 
-from pycoin.key import Key
-from pycoin.
+from pycoin.encoding import a2b_base58
 
 from . import Instruction, OP_EMPOWER, validate_address
 
@@ -13,9 +12,9 @@ class EmpowerVote(Instruction):
     """
     OP_CODE = OP_EMPOWER
 
-    def __init__(self, votes, address_bytes):
+    def __init__(self, votes, address):
         super().__init__()
-        self.address = address_bytes
+        self.address = address if type(address) == bytes else a2b_base58(address)
         self.votes = int(votes).to_bytes(4, ENDIAN)
         self._extra_bytes = self.votes + self.address
 
