@@ -1,5 +1,8 @@
 __author__ = 'XertroV'
 
+from pycoin.key import Key
+from pycoin.encoding import b2a_base58
+
 from ..constants import ENDIAN, MSG_PREFIX
 
 OP_NULL = b'\x00'
@@ -24,9 +27,11 @@ def validate_url(u):
     assert len(u) < 15
 
 
-def validate_hash160(h):
-    assert type(h) == bytes
-    assert len(h) == 20
+def validate_address(address_bytes):
+    assert type(address_bytes) == bytes
+    assert len(address_bytes) == 25
+    key = Key.from_text(b2a_base58(address_bytes))
+    assert key.hash160() == address_bytes[1:21]
 
 
 def validate_name(n):
