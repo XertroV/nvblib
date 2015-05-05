@@ -16,6 +16,16 @@ OP_DELEGATE = b'\x11'
 
 OP_TRANSFER = b'\x20'
 
+op_str_map = {
+    OP_NULL: 'OP_NULL',
+    OP_CREATE: 'OP_CREATE',
+    OP_MOD_RES: 'OP_MOD_RES',
+    OP_EMPOWER: 'OP_EMPOWER',
+    OP_CAST: 'OP_CAST',
+    OP_DELEGATE: 'OP_DELEGATE',
+    OP_TRANSFER: 'OP_TRANSFER',
+}
+
 _to_bytes = lambda f, s: s if type(s) is bytes else f(s)
 
 def _assert(condition, msg):
@@ -24,13 +34,15 @@ def _assert(condition, msg):
 
 
 def validate_resolution(r):
+    res_max_len = 9
     _assert(type(r) == bytes, 'Resolution: type must be bytes')
-    _assert(len(r) < 15, 'Resolution: length must be < 15')
+    _assert(len(r) < res_max_len, 'Resolution: len > %d, %s' % (res_max_len, r))
 
 
 def validate_url(u):
+    url_max_len = 20
     _assert(type(u) == bytes, 'Url: type must be bytes')
-    _assert(len(u) < 15, 'Url: len >= 15 ' + str(u))
+    _assert(len(u) <= url_max_len, 'Url: len > %d, %s' % (url_max_len, u))
 
 
 def validate_address(address_bytes):
@@ -65,6 +77,7 @@ class Instruction:
     def __init__(self):
         self.op_code = self.OP_CODE
         self._extra_bytes = b''
+        self._args = []
 
     def _encode_with_extra_bytes(self, *bs):
         return self.PREFIX + self.op_code + b''.join(bs)
@@ -82,4 +95,8 @@ class Instruction:
 
     @classmethod
     def from_bytes(cls, bs):
-        raise NotImplemented
+        raise NotImplemented()
+
+    def decode(self):
+        ''' Decode this instruction to something like: OP_CAST 255 v.Num RES '''
+        return op_str_map[self.OP_CODE] + ' ' + ' '.join(map(str, self._args))

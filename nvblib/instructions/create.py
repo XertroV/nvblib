@@ -10,6 +10,7 @@ class CreateNetwork(Instruction):
         super().__init__()
         self.name = _to_bytes(lambda n: n.encode(), name)
         self._extra_bytes = self.name
+        self._args = [self.name]
 
         validate_name(self.name)
 

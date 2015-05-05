@@ -6,7 +6,8 @@ from ..constants import ENDIAN
 
 
 class ModResolution(Instruction):
-    """PREFIX[3] OP_MOD_RES[1] categories[1] end_timestamp[4] res_len[1] resolution[<15] url_len[1] url[<15]"""
+    """PREFIX[3] OP_MOD_RES[1] categories[1] end_timestamp[4] res_len[1] resolution[<=9] url_len[1] url[<=20]
+    3+1+1+4+1+1 = 11; 29 bytes to split between resolution and url; 9 to res, 20 to url"""
     OP_CODE = OP_MOD_RES
 
     def __init__(self, categories, end_timestamp, resolution, url):
@@ -19,6 +20,8 @@ class ModResolution(Instruction):
         self._extra_bytes = self.categories + self.end_timestamp + \
             len_to_one_byte(self.resolution) + self.resolution + \
             len_to_one_byte(self.url) + self.url
+
+        self._args = [self.categories, self.end_timestamp, self.resolution, self.url]
 
         validate_url(self.url)
         validate_resolution(self.resolution)

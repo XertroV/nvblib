@@ -13,6 +13,7 @@ class CastVote(Instruction):
         self.vote_number = _to_bytes(lambda v: int(v).to_bytes(1, ENDIAN), vote_number)
         self.resolution = _to_bytes(lambda r: r.upper() if type(r) is bytes else r.upper().encode(), resolution)
         self._extra_bytes = self.vote_number + self.resolution
+        self._args = [self.vote_number, self.resolution]
 
         validate_resolution(self.resolution)
 

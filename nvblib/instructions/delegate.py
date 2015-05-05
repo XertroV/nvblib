@@ -16,6 +16,7 @@ class DelegateVote(Instruction):
         self.address = _to_bytes(lambda a: a2b_base58(a), address)
         self.categories = _to_bytes(lambda c: int(c).to_bytes(1, ENDIAN), categories)
         self._extra_bytes = self.categories + self.address
+        self._args = [self.categories, self.address]
 
         validate_address(self.address)
 

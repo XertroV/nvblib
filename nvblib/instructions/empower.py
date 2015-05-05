@@ -17,6 +17,7 @@ class EmpowerVote(Instruction):
         self.address = _to_bytes(lambda a: a2b_base58(a), address)
         self.votes = _to_bytes(lambda v: int(v).to_bytes(4, ENDIAN), votes)
         self._extra_bytes = self.votes + self.address
+        self._args = [self.votes, self.address]
 
         validate_address(self.address)
 

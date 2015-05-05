@@ -16,6 +16,7 @@ class ModResolution(Instruction):
         self.address = address if type(address) is bytes else a2b_base58(address)
 
         self._extra_bytes = self.address
+        self._args = [self.address]
 
         validate_address(self.address)
 
