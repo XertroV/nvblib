@@ -15,6 +15,8 @@ OP_CAST = b'\x10'
 OP_DELEGATE = b'\x11'
 
 OP_TRANSFER = b'\x20'
+OP_ENABLE_TFER = b'\x21'
+OP_DISABLE_TFER = b'\x22'
 
 op_str_map = {
     OP_NULL: 'OP_NULL',
@@ -24,13 +26,15 @@ op_str_map = {
     OP_CAST: 'OP_CAST',
     OP_DELEGATE: 'OP_DELEGATE',
     OP_TRANSFER: 'OP_TRANSFER',
+    OP_ENABLE_TFER: 'OP_ENABLE_TFER',
+    OP_DISABLE_TFER: 'OP_DISABLE_TFER',
 }
 
 _to_bytes = lambda f, s: s if type(s) is bytes else f(s)
 
 def _assert(condition, msg):
     if not condition:
-        raise Exception('Assertion Error: ' + str(msg))
+        raise AssertionError(str(msg))
 
 
 def validate_resolution(r):
@@ -63,7 +67,7 @@ def validate_prefix(bs):
 
 def validate_comment(c):
     _assert(type(c) == bytes, 'Comment: type must be bytes')
-    _assert(len(c) <= 40, 'Comment: len > 40')
+    _assert(len(c) <= 80, 'Comment: len > 40')
 
 
 def len_to_one_byte(i):

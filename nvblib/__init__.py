@@ -6,7 +6,9 @@ from .instructions.delegate import DelegateVote
 from .instructions.empower import EmpowerVote
 from .instructions.mod_res import ModResolution
 from .instructions.comment import CommentNulldata
-from .instructions import OP_TRANSFER, OP_DELEGATE, OP_CREATE, OP_CAST, OP_EMPOWER, OP_MOD_RES, OP_NULL
+from .instructions.transfer import TransferIdentity, EnableTransfer, DisableTransfer
+from .instructions import OP_TRANSFER, OP_DISABLE_TFER, OP_ENABLE_TFER, OP_DELEGATE, OP_CREATE, OP_CAST, OP_EMPOWER, \
+    OP_MOD_RES, OP_NULL
 
 instruction_map = {
     'create': CreateNetwork,
@@ -15,7 +17,9 @@ instruction_map = {
     'mod_res': ModResolution,
     'empower': EmpowerVote,
     'comment': CommentNulldata,
-    'transfer': None,
+    'transfer': TransferIdentity,
+    'enable_transfer': EnableTransfer,
+    'disable_transfer': DisableTransfer,
 }
 
 op_code_map = {
@@ -24,7 +28,9 @@ op_code_map = {
     OP_DELEGATE: DelegateVote,
     OP_MOD_RES: ModResolution,
     OP_EMPOWER: EmpowerVote,
-    OP_TRANSFER: None,
+    OP_TRANSFER: TransferIdentity,
+    OP_ENABLE_TFER: EnableTransfer,
+    OP_DISABLE_TFER: DisableTransfer,
 }
 
 def instruction_lookup(instruction_str):
