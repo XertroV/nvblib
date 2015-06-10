@@ -24,3 +24,9 @@ class Tests(unittest.TestCase):
     def test_transfer(self):
         enable_transfer_encoded = b'NVB' + transfer.EnableTransfer.OP_CODE + b'\x00\x0c\x9b\nJ\xf3[\xc1(\x1a\xf3\xd5\x13z\x1c\x90\xdc\x11\x17\xb3\x10\x82y\xe0\xf3'
         assert enable_transfer_encoded == transfer.EnableTransfer(a2b_base58('129eqgh8CNi7LibSmJtbDEnZFTmKA6H3HU')).to_bytes()
+
+        disable_transfer_encoded = b'NVB' + transfer.DisableTransfer.OP_CODE
+        assert disable_transfer_encoded == transfer.DisableTransfer().to_bytes()
+
+        transfer_encoded = b'NVB' + transfer.TransferIdentity.OP_CODE
+        assert transfer_encoded == transfer.TransferIdentity().to_bytes()
